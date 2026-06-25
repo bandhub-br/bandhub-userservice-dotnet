@@ -42,6 +42,11 @@ public class AccountDbContext : DbContext
 
             entity.Property(x => x.CreatedAt)
                 .IsRequired();
+
+            entity.Property(x => x.RefreshToken)
+                .HasMaxLength(500);
+
+            entity.Property(x => x.RefreshTokenExpiraEm);
         });
     }
 }

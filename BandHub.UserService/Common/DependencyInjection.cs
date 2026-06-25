@@ -1,7 +1,6 @@
 using BandHub.UserService.Features.Accounts.CreateAccount;
 using BandHub.UserService.Features.Accounts.Domain;
 using BandHub.UserService.Features.Accounts.GetAccounts;
-using BandHub.UserService.Features.Accounts.Login;
 using BandHub.UserService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +17,6 @@ public static class DependencyInjection
 
         services.AddScoped<RegisterAccountHandler>();
         services.AddScoped<GetAccountsHandler>();
-        services.AddScoped<LoginHandler>();
 
         return services;
     }

@@ -24,9 +24,9 @@ public class AccountRepository : IAccountRepository
             .AnyAsync(x => x.Email == email, cancellationToken);
     }
 
-    public async Task<Account> GetByEmailAsync(string Email, CancellationToken cancellationToken)
+    public async Task<Account?> GetByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return await _context.Accounts
-            .FirstOrDefaultAsync(x => x.Email == Email, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
     }
 }
