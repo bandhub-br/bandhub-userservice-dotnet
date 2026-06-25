@@ -40,6 +40,8 @@ O **UserService** é o microsserviço responsável pelo gerenciamento de contas 
 |-------|----------------|-----------|
 | `5293` | `users_db` | Gerenciamento de contas (registro e consulta) |
 
+> 🚪 **Acesso externo:** use o [BandHub.Gateway](https://github.com/bandhub-br/bandhub-gateway-dotnet) (porta `5000`) como ponto de entrada — `/accounts/**` é roteado automaticamente para este serviço.
+
 ---
 
 ## 🏗 Arquitetura
