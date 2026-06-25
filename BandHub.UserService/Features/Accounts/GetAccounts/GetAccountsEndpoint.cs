@@ -13,7 +13,8 @@ public static class GetAccountsEndpoint
             return Results.Ok(response);
         })
         .WithName("GetAccounts")
-        .WithTags("Accounts");
+        .WithTags("Accounts")
+        .RequireAuthorization();
 
         return app;
     }
