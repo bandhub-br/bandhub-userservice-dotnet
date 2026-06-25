@@ -32,11 +32,13 @@
 
 ## 📖 Sobre o Serviço
 
-O **UserService** é o microsserviço responsável pelo gerenciamento de contas do BandHub. Ele provê funcionalidades de registro, autenticação e consulta de contas, com seu próprio banco de dados isolado.
+O **UserService** é o microsserviço responsável pelo gerenciamento de contas do BandHub. Ele provê funcionalidades de registro e consulta de contas, com seu próprio banco de dados isolado.
+
+> 🔐 **Autenticação** é responsabilidade do [BandHub.AuthService](https://github.com/bandhub-br/bandhub-authservice-dotnet).
 
 | Porta | Banco de Dados | Descrição |
 |-------|----------------|-----------|
-| `5293` | `users_db` | Gerenciamento de contas (registro, login e consulta) |
+| `5293` | `users_db` | Gerenciamento de contas (registro e consulta) |
 
 ---
 
@@ -93,11 +95,6 @@ BandHub.UserService/
 │   │       │   ├── RegisterAccountRequest.cs
 │   │       │   ├── RegisterAccountResponse.cs
 │   │       │   └── RegisterAccountValidator.cs
-│   │       ├── Login/
-│   │       │   ├── LoginEndpoint.cs
-│   │       │   ├── LoginHandler.cs
-│   │       │   ├── LoginRequest.cs
-│   │       │   └── LoginResponse.cs
 │   │       ├── GetAccounts/
 │   │       │   ├── GetAccountsEndpoint.cs
 │   │       │   ├── GetAccountsHandler.cs
@@ -124,10 +121,8 @@ BandHub.UserService/
 │               ├── CreateAccount/
 │               │   ├── CreateAccountHandlerTests.cs
 │               │   └── CreateAccountValidatorTests.cs
-│               ├── GetAccounts/
-│               │   └── GetAccountsHandlerTests.cs
-│               └── Login/
-│                   └── LoginHandlerTests.cs
+│               └── GetAccounts/
+│                   └── GetAccountsHandlerTests.cs
 │
 ├── BandHub.UserService.sln
 └── README.md
@@ -332,10 +327,8 @@ tests/
         ├── CreateAccount/
         │   ├── CreateAccountHandlerTests.cs   → Testa lógica de registro
         │   └── CreateAccountValidatorTests.cs → Testa validações de entrada
-        ├── GetAccounts/
-        │   └── GetAccountsHandlerTests.cs     → Testa busca por email
-        └── Login/
-            └── LoginHandlerTests.cs           → Testa autenticação
+        └── GetAccounts/
+            └── GetAccountsHandlerTests.cs     → Testa busca por email
 ```
 
 ### Padrão dos testes
@@ -364,8 +357,9 @@ public async Task HandleAsync_ShouldCreateAccount_WhenRequestIsValid()
 | Método | Rota | Descrição |
 |--------|------|-----------|
 | `POST` | `/accounts/register` | Registrar uma nova conta |
-| `POST` | `/accounts/login` | Autenticar uma conta |
 | `GET` | `/accounts/getaccountbyemail?email=` | Buscar conta por email |
+
+> 🔐 Login e renovação de token são feitos pelo **AuthService** em `POST /auth/login` e `POST /auth/refresh-token`.
 
 #### `POST /accounts/register`
 
@@ -389,26 +383,6 @@ public async Task HandleAsync_ShouldCreateAccount_WhenRequestIsValid()
   "email": "john@example.com",
   "accountType": "User",
   "createdAt": "2026-03-07T15:30:00Z"
-}
-```
-
-#### `POST /accounts/login`
-
-**Request:**
-```json
-{
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
-
-**Response (200):**
-```json
-{
-  "accountId": "550e8400-e29b-41d4-a716-446655440000",
-  "name": "John Doe",
-  "email": "john@example.com",
-  "accountType": "User"
 }
 ```
 
