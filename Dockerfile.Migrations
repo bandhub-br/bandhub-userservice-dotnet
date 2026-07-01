@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+WORKDIR /src
+
+COPY ["BandHub.UserService/BandHub.UserService.csproj", "BandHub.UserService/"]
+RUN dotnet restore "BandHub.UserService/BandHub.UserService.csproj"
+COPY . .
+
+RUN dotnet tool install --global dotnet-ef --version 8.0.11
+ENV PATH="$PATH:/root/.dotnet/tools"
+
+WORKDIR "/src/BandHub.UserService"
+ENTRYPOINT ["dotnet-ef", "database", "update", "--no-build"]
